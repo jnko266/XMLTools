@@ -100,3 +100,8 @@ For simplicity, this is the output in a table format:
 | value1 | att_val | | value2 |
 | value1 | | att_val2 | value2 |
 | value1 | | | value2 |
+## amendCSV.py
+This script takes a single parameter - name of the CSV file to be amended.  
+Output contents will be written to a file that has the same name as the input file, but with a `_new.csv` extension.
+Example: `convert.csv` will be amended to `convert_new.csv`.
+At the moment, its function is to move the `sys_id` to be the first one. 
