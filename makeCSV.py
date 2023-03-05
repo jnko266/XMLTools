@@ -20,15 +20,15 @@ inputXmlRoot = inputXml.getroot()
 # get the set of all possible headers by iterating over all child elements
 all_headers = set()
 for child in inputXmlRoot:
-    for subchild in child:
-        tag = subchild.tag
-        if tag not in all_headers:
-            all_headers.add(tag)
-        if subchild.attrib:
-            if "/" in tag:
-                all_headers.add(tag)
-            for attrib in subchild.attrib.keys():
-                all_headers.add(f"{tag}/{attrib}")
+	for subchild in child:
+		tag = subchild.tag
+		if tag not in all_headers:
+			all_headers.add(tag)
+		if subchild.attrib:
+			if "/" in tag:
+				all_headers.add(tag)
+			for attrib in subchild.attrib.keys():
+				all_headers.add(f"{tag}/{attrib}")
 
 # create the headers by sorting the set alphabetically
 headers = sorted(list(all_headers))
@@ -36,24 +36,26 @@ headers = sorted(list(all_headers))
 # create the output file (replacing the .xml extension with .csv)
 csv_filename = sys.argv[1].replace('.xml', '.csv')
 with open(csv_filename, "w", newline="") as csv_file:
-    writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+	writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-    # write the headers to the CSV file
-    writer.writerow(headers)
-    
+	# write the headers to the CSV file
+	writer.writerow(headers)
+	
 	# loop through the XML file and write the data to the CSV file
-    for child in inputXmlRoot:
-        row = []
-        for header in headers:
-            tag, attrib = header.split("/") if "/" in header else (header, None)
-            value = child.find(tag)
-            if attrib is not None:
-                value = value.attrib.get(attrib)
-            else:
-                value = value.text
-            row.append(value)
-        writer.writerow(row)
-        
+	for child in inputXmlRoot:
+		row = []
+		for header in headers:
+			tag, attrib = header.split("/") if "/" in header else (header, None)
+			value = child.find(tag)
+			if attrib is not None and value is not None:
+				value = value.attrib.get(attrib)
+			elif value is not None:
+				value = value.text
+			else:
+				value = ""
+			row.append(value)
+		writer.writerow(row)
+		
 # close the CSV file
 csv_file.close()
 
