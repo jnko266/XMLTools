@@ -26,7 +26,7 @@ current_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 incident_file.write(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<group split_date=\"" + current_date_time + "\">\n").encode('utf-8'))
 audit_file.write(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<group split_date=\"" + current_date_time + "\">\n").encode('utf-8'))
 
-# loop through the digest.xml file and write the data to the appropriate output file
+# loop through the digested file and write the data to the appropriate output file
 for event, element in context:
 	if element.tag == 'incident':
 		incident_file.write(ElementTree.tostring(element))
