@@ -17,25 +17,24 @@ if len(sys.argv) < 2:
 inputXml = ElementTree.parse(sys.argv[1])
 inputXmlRoot = inputXml.getroot()
 
-# get the list of headers by iterating over all child elements in the root tag
-headers = []
+# get the set of all possible headers by iterating over all child elements
+all_headers = set()
 for child in inputXmlRoot:
     for subchild in child:
         tag = subchild.tag
+        if tag not in all_headers:
+            all_headers.add(tag)
         if subchild.attrib:
-            # if the tag has attributes, add a column for the tag name
-            if tag not in headers:
-                headers.append(tag)
-            for attrib, value in subchild.attrib.items():
-                header = f"{tag}/{attrib}"
-                if header not in headers:
-                    headers.append(header)
-        else:
-            if tag not in headers:
-                headers.append(tag)
+            if "/" in tag:
+                all_headers.add(tag)
+            for attrib in subchild.attrib.keys():
+                all_headers.add(f"{tag}/{attrib}")
+
+# create the headers by sorting the set alphabetically
+headers = sorted(list(all_headers))
 
 # create the output file (replacing the .xml extension with .csv)
-csv_filename = format(sys.argv[1].replace('.xml', '.csv'))
+csv_filename = sys.argv[1].replace('.xml', '.csv')
 with open(csv_filename, "w", newline="") as csv_file:
     writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
