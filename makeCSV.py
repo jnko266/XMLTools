@@ -18,25 +18,25 @@ inputXml = ElementTree.parse(sys.argv[1])
 inputXmlRoot = inputXml.getroot()
 
 # get the set of all possible headers by iterating over all child elements
-all_headers = set()
+allHeaders = set()
 for child in inputXmlRoot:
 	for subchild in child:
 		tag = subchild.tag
-		if tag not in all_headers:
-			all_headers.add(tag)
+		if tag not in allHeaders:
+			allHeaders.add(tag)
 		if subchild.attrib:
 			if "/" in tag:
-				all_headers.add(tag)
+				allHeaders.add(tag)
 			for attrib in subchild.attrib.keys():
-				all_headers.add(f"{tag}/{attrib}")
+				allHeaders.add(f"{tag}/{attrib}")
 
 # create the headers by sorting the set alphabetically
-headers = sorted(list(all_headers))
+headers = sorted(list(allHeaders))
 
 # create the output file (replacing the .xml extension with .csv)
-csv_filename = sys.argv[1].replace('.xml', '.csv')
-with open(csv_filename, "w", newline="") as csv_file:
-	writer = csv.writer(csv_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+csvFilename = sys.argv[1].replace('.xml', '.csv')
+with open(csvFilename, "w", newline="") as csvFile:
+	writer = csv.writer(csvFile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
 	# write the headers to the CSV file
 	writer.writerow(headers)
@@ -57,8 +57,8 @@ with open(csv_filename, "w", newline="") as csv_file:
 		writer.writerow(row)
 		
 # close the CSV file
-csv_file.close()
+csvFile.close()
 
 # print a message to the screen
-print("CSV file created: " + csv_filename)
+print("CSV file created: " + csvFilename)
 print("Conversion complete!")
