@@ -16,24 +16,24 @@ if len(sys.argv) < 2:
 context = ElementTree.iterparse(sys.argv[1], events=('end', ))
 
 # create the new files
-user_filename = format("output_user.xml")
-user_file = open(user_filename, 'wb')
+userFilename = format("output_user.xml")
+userFile = open(userFilename, 'wb')
 
 # write the XML header to the new file
-current_date_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-user_file.write(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<group cleaned_date=\"" + current_date_time + "\">\n").encode('utf-8'))
+currentDateTime = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+userFile.write(("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<group cleaned_date=\"" + currentDateTime + "\">\n").encode('utf-8'))
 
 # loop through the digested file and if tag is the tag we want, put it to a new file
 for event, element in context:
 	if element.tag == 'x_qdsdp_bnp_candidate':
-		user_file.write(ElementTree.tostring(element))
+		userFile.write(ElementTree.tostring(element))
 	if element.tag == 'sys_user':
-		user_file.write(ElementTree.tostring(element))
+		userFile.write(ElementTree.tostring(element))
 
 # write the XML footer to the output files and close the file
-user_file.write("</group>".encode('utf-8'))
-user_file.close()
+userFile.write("</group>".encode('utf-8'))
+userFile.close()
 
 # print a message to the screen
-print("User file created: " + user_filename)
+print("User file created: " + userFilename)
 print("Cleanup complete!")
