@@ -1,2 +1,5 @@
-/data/*
+# Ignore all directories
+*/
+
+# But don't ignore .gitkeep in the /data directory
 !/data/.gitkeep
