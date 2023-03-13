@@ -116,4 +116,6 @@ Output contents will be written to a file that has the same name as the input fi
 This script takes in two parameters - name of the incident CSV file and name of the audit CSV file. It will iterate over the incident CSV file and for each incident, it will generate a new activity record, which will show when the incident was created and what channel was used to create it.  
 The new activity rows will be appended to the audit CSV file passed as a parameter.  
 ### tagCounter.py
-This script takes a single parameter - name of an XML file. The script will locate the root tag of the XML file and then it will count how many times each tag occurs in the file.  
+This script takes a single parameter - a filename. This can be either an XML or CSV file.  
+If the file is XML, the script will locate the root tag of the XML file and then it will count how many times each tag occurs in the file.  
+If the file is CSV, the script will count how many rows the file contains (except the header row).
